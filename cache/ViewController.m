@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "ASCache.h"
+#import "UIImageView+WebImage.h"
 @interface ViewController ()
 
 @end
@@ -17,8 +18,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-
-    
+    ASCache * cache = [ASCache SharedCache];
+    UIImage * image = [cache getImageForDiskCache:@"test"];
+    UIImageView * imgview = [[UIImageView alloc] initWithFrame:CGRectMake(100, 100, 300, 300)];
+    imgview.image = image;
+    [self.view addSubview:imgview];
     
 }
 

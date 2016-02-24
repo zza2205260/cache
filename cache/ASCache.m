@@ -64,11 +64,20 @@
 
 -(UIImage *)getImageForDiskCache:(NSString *)key{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-
+    
     NSString *fullPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[self FileName:key]];
     UIImage *savedImage = [[UIImage alloc] initWithContentsOfFile:fullPath];
     
     return savedImage;
+}
+
+
+-(UIImage *)getImageForCache:(NSString *)key{
+    UIImage * img =  [self getImageForMemoryCache:key];
+    if (!img) {
+        img = [self getImageForDiskCache:key];
+    }
+    return img;
 }
 
 -(void)removeImageForKey:(NSString *)key{
@@ -76,7 +85,7 @@
 }
 
 -(void)cleanDisk{
-    
+    [_mCache removeAllObjects];
 }
 
 -(NSString *)FileName:(NSString *)str{
